@@ -12,66 +12,52 @@ class FeedScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: AppBar(
-          title: SvgPicture.asset(
-            'assets/images/ic_instagram.svg',
-            color: primaryColor,
-            height: 5.h,
-          ),
-          backgroundColor: mobileBackgroundColor,
-          actions: [
-            InkWell(
-                onTap: () {
-                  Navigator.of(context).push(MaterialPageRoute(
-                    builder: (context) {
-                      return const ChatScreen();
-                    },
-                  ));
-                },
-                child: Container(
-                  height: 6.h,
-                  width: 6.w,
-                  margin: const EdgeInsets.only(right: 10),
-                  child: Image.asset(
-                    'assets/images/message.png',
-                    color: Colors.white,
-                  ),
-                ))
-          ],
+      appBar: AppBar(
+        title: SvgPicture.asset(
+          'assets/images/ic_instagram.svg',
+          color: primaryColor,
+          height: 5.h,
         ),
-        body: FutureBuilder(
-          future: FirebaseFirestore.instance.collection('posts').get(),
-          builder: (context, snapshot) {
-            return ListView.builder(
-              physics: const BouncingScrollPhysics(),
-              itemCount: (snapshot.data! as dynamic).docs.length,
-              itemBuilder: (context, index) {
-                return PostCard(
-                  snap: (snapshot.data! as dynamic)[index].data(),
-                );
+        backgroundColor: mobileBackgroundColor,
+        actions: [
+          InkWell(
+              onTap: () {
+                Navigator.of(context).push(MaterialPageRoute(
+                  builder: (context) {
+                    return const ChatScreen();
+                  },
+                ));
               },
+              child: Container(
+                height: 6.h,
+                width: 6.w,
+                margin: const EdgeInsets.only(right: 10),
+                child: Image.asset(
+                  'assets/images/message.png',
+                  color: Colors.white,
+                ),
+              ))
+        ],
+      ),
+      body: StreamBuilder(
+        stream: FirebaseFirestore.instance.collection('posts').snapshots(),
+        builder: ((context,
+            AsyncSnapshot<QuerySnapshot<Map<String, dynamic>>> snapshot) {
+          if (!snapshot.hasData ||
+              snapshot.connectionState == ConnectionState.waiting) {
+            return const Center(
+              child: CircularProgressIndicator(),
             );
-          },
-        )
-        // StreamBuilder(
-        //   stream: FirebaseFirestore.instance.collection('posts').snapshots(),
-        //   builder: ((context,
-        //       AsyncSnapshot<QuerySnapshot<Map<String, dynamic>>> snapshot) {
-        //     if (!snapshot.hasData ||
-        //         snapshot.connectionState == ConnectionState.waiting) {
-        //       return const Center(
-        //         child: CircularProgressIndicator(),
-        //       );
-        //     }
-        //     return ListView.builder(
-        //       physics: const BouncingScrollPhysics(),
-        //       itemCount: snapshot.data!.docs.length,
-        //       itemBuilder: (context, index) {
-        //         return PostCard(snap: snapshot.data!.docs[index].data());
-        //       },
-        //     );
-        //   }),
-        // ),
-        );
+          }
+          return ListView.builder(
+            physics: const BouncingScrollPhysics(),
+            itemCount: snapshot.data!.docs.length,
+            itemBuilder: (context, index) {
+              return PostCard(snap: snapshot.data!.docs[index].data());
+            },
+          );
+        }),
+      ),
+    );
   }
 }
