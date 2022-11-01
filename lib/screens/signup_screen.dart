@@ -7,6 +7,7 @@ import 'package:instagram/screens/login_screen.dart';
 import 'package:instagram/utils/utils.dart';
 import '../utils/colors.dart';
 import '../widgets/text_input_field.dart';
+import 'package:sizer/sizer.dart';
 
 class SignUpScreen extends StatefulWidget {
   const SignUpScreen({Key? key}) : super(key: key);
@@ -70,7 +71,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
     return Scaffold(
       body: SafeArea(
         child: Container(
-          padding: const EdgeInsets.symmetric(horizontal: 32),
+          padding: EdgeInsets.symmetric(horizontal: 7.w),
           width: double.infinity,
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.center,
@@ -82,46 +83,46 @@ class _SignUpScreenState extends State<SignUpScreen> {
                 children: [
                   _img != null
                       ? CircleAvatar(
-                          radius: 64,
+                          radius: 9.h,
                           backgroundImage: MemoryImage(_img!),
                         )
-                      : const CircleAvatar(
-                          radius: 64,
-                          backgroundImage: NetworkImage(
+                      : CircleAvatar(
+                          radius: 9.h,
+                          backgroundImage: const NetworkImage(
                               'https://www.kindpng.com/picc/m/52-526237_avatar-profile-hd-png-download.png'),
                         ),
                   Positioned(
-                      bottom: -10,
-                      right: -5,
+                      bottom: -1.2.h,
+                      right: -0.5.h,
                       child: IconButton(
                         onPressed: selectImage,
                         icon: const Icon(Icons.add_a_photo),
                       ))
                 ],
               ),
-              const SizedBox(
-                height: 50,
+              SizedBox(
+                height: 5.h,
               ),
               TextInputField(
                   textEditingController: _usernameController,
                   hintText: 'Enter Your Username',
                   textInputType: TextInputType.text),
-              const SizedBox(
-                height: 20,
+              SizedBox(
+                height: 3.h,
               ),
               TextInputField(
                   textEditingController: _bioController,
                   hintText: 'Enter Your Bio',
                   textInputType: TextInputType.text),
-              const SizedBox(
-                height: 20,
+              SizedBox(
+                height: 3.h,
               ),
               TextInputField(
                   textEditingController: _emailController,
                   hintText: 'Enter Your Email',
                   textInputType: TextInputType.emailAddress),
-              const SizedBox(
-                height: 20,
+              SizedBox(
+                height: 3.h,
               ),
               TextInputField(
                 textEditingController: _passController,
@@ -129,13 +130,13 @@ class _SignUpScreenState extends State<SignUpScreen> {
                 textInputType: TextInputType.text,
                 isPass: true,
               ),
-              const SizedBox(height: 20),
+              SizedBox(height: 3.h),
               InkWell(
                 onTap: signUpUser,
                 child: Container(
                   width: double.infinity,
                   alignment: Alignment.center,
-                  padding: const EdgeInsets.symmetric(vertical: 12),
+                  padding: EdgeInsets.symmetric(vertical: 2.h),
                   decoration: const ShapeDecoration(
                       color: blueColor,
                       shape: RoundedRectangleBorder(
@@ -149,20 +150,20 @@ class _SignUpScreenState extends State<SignUpScreen> {
                       : const Text('Sign up'),
                 ),
               ),
-              const SizedBox(
-                height: 18,
+              SizedBox(
+                height: 3.h,
               ),
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   Container(
-                    padding: const EdgeInsets.symmetric(vertical: 8),
+                    padding: EdgeInsets.symmetric(vertical: 1.h),
                     child: const Text('Already have an account?'),
                   ),
                   GestureDetector(
                     onTap: navigateToLogin,
                     child: Container(
-                      padding: const EdgeInsets.symmetric(vertical: 8),
+                      padding: EdgeInsets.symmetric(vertical: 1.h),
                       child: const Text(
                         'Log in',
                         style: TextStyle(fontWeight: FontWeight.bold),

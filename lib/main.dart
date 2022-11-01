@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:instagram/firebase_options.dart';
 import 'package:instagram/providers/user_provider.dart';
 import 'package:provider/provider.dart';
+import 'package:sizer/sizer.dart';
 import './screens/login_screen.dart';
 import './utils/colors.dart';
 import 'screens/home_screen.dart';
@@ -25,13 +26,15 @@ class MyApp extends StatelessWidget {
           create: (_) => UserProvider(),
         )
       ],
-      child: MaterialApp(
-        title: 'Instagram',
-        debugShowCheckedModeBanner: false,
-        theme: ThemeData.dark()
-            .copyWith(scaffoldBackgroundColor: mobileBackgroundColor),
-        home: const MainApp(),
-      ),
+      child: Sizer(builder: (context, orientation, deviceType) {
+        return MaterialApp(
+          title: 'Instagram',
+          debugShowCheckedModeBanner: false,
+          theme: ThemeData.dark()
+              .copyWith(scaffoldBackgroundColor: mobileBackgroundColor),
+          home: const MainApp(),
+        );
+      }),
     );
   }
 }

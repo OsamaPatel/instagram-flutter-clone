@@ -1,6 +1,6 @@
 import 'dart:typed_data';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:instagram/utils/utils.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:uuid/uuid.dart';
 import 'package:instagram/Models/post_model.dart';
 import 'package:instagram/resources/storage_methods.dart';
@@ -127,5 +127,43 @@ class FirestoreMethods {
     } catch (e) {
       print(e.toString());
     }
+  }
+
+  uploadMessage({
+    required String senderUid,
+    required String senderUsername,
+    required String message,
+    required String recieverUid,
+    required String recieverUsername,
+  }) async {
+    var messageId = const Uuid().v1();
+    await FirebaseFirestore.instance
+        .collection('users')
+        .doc(FirebaseAuth.instance.currentUser!.uid)
+        .collection('chats')
+        .doc(recieverUid)
+        .collection('messages')
+        .doc(messageId)
+        .set({
+      'senderId': FirebaseAuth.instance.currentUser!.uid,
+      'recieverId': recieverUid,
+      'message': message,
+      'timeSent': DateTime.now(),
+      'messageId': messageId
+    });
+    await FirebaseFirestore.instance
+        .collection('users')
+        .doc(recieverUid)
+        .collection('chats')
+        .doc(FirebaseAuth.instance.currentUser!.uid)
+        .collection('messages')
+        .doc(messageId)
+        .set({
+      'senderId': FirebaseAuth.instance.currentUser!.uid,
+      'recieverId': recieverUid,
+      'message': message,
+      'timeSent': DateTime.now(),
+      'messageId': messageId
+    });
   }
 }

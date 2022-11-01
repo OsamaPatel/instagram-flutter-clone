@@ -55,9 +55,9 @@ class _CommentScreenState extends State<CommentScreen> {
             );
           }
           return ListView.builder(
-            itemCount: snapshot.data!.docs.length,
+            itemCount: snapshot.data?.docs.length,
             itemBuilder: (context, index) {
-              return CommentCard(snap: snapshot.data!.docs[index].data());
+              return CommentCard(snap: snapshot.data?.docs[index].data());
             },
           );
         },

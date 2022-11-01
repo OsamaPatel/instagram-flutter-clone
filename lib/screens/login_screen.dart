@@ -1,10 +1,13 @@
+import 'package:firebase_core/firebase_core.dart';
 import "package:flutter/material.dart";
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:instagram/Models/user_model.dart' as model;
 import 'package:instagram/resources/auth_methods.dart';
 import 'package:instagram/screens/signup_screen.dart';
 import 'package:instagram/utils/colors.dart';
 import 'package:instagram/utils/utils.dart';
 import 'package:instagram/widgets/text_input_field.dart';
+import 'package:sizer/sizer.dart';
 
 import 'home_screen.dart';
 
@@ -25,6 +28,12 @@ class _LoginScreenState extends State<LoginScreen> {
         .push(MaterialPageRoute(builder: (context) => const SignUpScreen()));
   }
 
+  navigate() {
+    Navigator.of(context).pushReplacement(
+        MaterialPageRoute(builder: (context) => const HomeScreen()));
+    showSnackBar('Logged in Successfully', context);
+  }
+
   void loginUser() async {
     setState(() {
       _isLoading = true;
@@ -32,12 +41,10 @@ class _LoginScreenState extends State<LoginScreen> {
     String res = await Authentication().loginUser(
         email: _emailController.text, password: _passController.text);
 
-    if (res != 'success') {
-      showSnackBar(res, context);
+    if (res == 'success') {
+      navigate();
     } else {
-      showSnackBar('Logged in Successfully', context);
-      Navigator.of(context).pushReplacement(
-          MaterialPageRoute(builder: (context) => const HomeScreen()));
+      showSnackBar(res, context);
     }
 
     setState(() {
@@ -62,23 +69,23 @@ class _LoginScreenState extends State<LoginScreen> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
-              const SizedBox(
-                height: 85,
+              SizedBox(
+                height: 20.h,
               ),
               SvgPicture.asset(
-                'assets/ic_instagram.svg',
+                'assets/images/ic_instagram.svg',
                 color: primaryColor,
-                height: 64,
+                height: 10.h,
               ),
-              const SizedBox(
-                height: 84,
+              SizedBox(
+                height: 8.h,
               ),
               TextInputField(
                   textEditingController: _emailController,
                   hintText: 'Enter Your Email',
                   textInputType: TextInputType.emailAddress),
-              const SizedBox(
-                height: 20,
+              SizedBox(
+                height: 3.h,
               ),
               TextInputField(
                 textEditingController: _passController,
@@ -86,13 +93,13 @@ class _LoginScreenState extends State<LoginScreen> {
                 textInputType: TextInputType.text,
                 isPass: true,
               ),
-              const SizedBox(height: 20),
+              SizedBox(height: 2.h),
               InkWell(
                 onTap: loginUser,
                 child: Container(
                   width: double.infinity,
                   alignment: Alignment.center,
-                  padding: const EdgeInsets.symmetric(vertical: 12),
+                  padding: EdgeInsets.symmetric(vertical: 1.5.h),
                   decoration: const ShapeDecoration(
                       color: blueColor,
                       shape: RoundedRectangleBorder(
@@ -106,8 +113,8 @@ class _LoginScreenState extends State<LoginScreen> {
                       : const Text('Log in'),
                 ),
               ),
-              const SizedBox(
-                height: 18,
+              SizedBox(
+                height: 2.h,
               ),
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
@@ -119,7 +126,7 @@ class _LoginScreenState extends State<LoginScreen> {
                   GestureDetector(
                     onTap: navigateToSignUp,
                     child: Container(
-                      padding: const EdgeInsets.symmetric(vertical: 8),
+                      padding: EdgeInsets.symmetric(vertical: 1.h),
                       child: const Text(
                         'Sign up',
                         style: TextStyle(fontWeight: FontWeight.bold),
